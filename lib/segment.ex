@@ -15,7 +15,7 @@ defmodule Segment do
 
   ## Examples
 
-    iex> Segment.start_link("key", "endpoint")
+    iex> Segment.start_link("key")
     ...> Segment.key()
     "key"
 
@@ -33,9 +33,9 @@ defmodule Segment do
     ...> Segment.endpoint()
     "https://api.segment.io/v1/"
 
-    iex> Segment.start_link("key", "endpoint")
+    iex> Segment.start_link("key", "https://example.com")
     ...> Segment.endpoint()
-    "endpoint"
+    "https://example.com"
 
   """
   def endpoint() do
