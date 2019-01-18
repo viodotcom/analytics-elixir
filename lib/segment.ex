@@ -1,4 +1,6 @@
 defmodule Segment do
+  use Agent
+
   @type status :: :ok | :error
 
   @default_endpoint "https://api.segment.io/v1/"
