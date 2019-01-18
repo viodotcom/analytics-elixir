@@ -38,12 +38,13 @@ end
 ie.
 ```
 config :segment,
-  write_key: "2iFFnRsCfi"
+  key: "your_segment_key",
+  endpoint: "https://api.segment.io/v1/"
 ```
 4. Start the segment agent as a child of the application in the application file under
 the lib directory. In the children list add:
 ```
-worker(Segment, [Application.get_env(:segment, :write_key)])
+worker(Segment, [Application.get_env(:segment, :key), Application.get_env(:segment, :endpoint)])
 ```
 
 ### Track
