@@ -30,17 +30,16 @@ defmodule Segment do
       start: {Segment, :start_link, ["something", "http://example.com"]}
     }
 
-    iex> Segment.child_spec([key: "something", endpoint: "http://example.com"])
-    %{
-      id: Segment,
-      start: {Segment, :start_link, ["something", "http://example.com"]}
-    }
-
   """
   def child_spec(arg) do
+    opts = [
+      Keyword.fetch!(arg, :key),
+      Keyword.get(arg, :endpoint)
+    ]
+
     %{
       id: Segment,
-      start: {Segment, :start_link, [Keyword.fetch!(arg, :key), Keyword.get(arg, :endpoint)]}
+      start: {Segment, :start_link, opts}
     }
   end
 
