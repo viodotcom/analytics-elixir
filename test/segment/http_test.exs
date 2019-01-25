@@ -1,5 +1,5 @@
 defmodule Segment.Analytics.HttpTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   @apikey "afakekey"
   @url "something"
