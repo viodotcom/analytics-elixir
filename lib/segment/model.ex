@@ -90,14 +90,17 @@ end
 defmodule Segment.Analytics.Context.Library do
   @derive [Poison.Encoder]
 
+  @project_name Mix.Project.get().project[:name]
+  @project_version Mix.Project.get().project[:version]
+
   defstruct [:name, :version, :transport]
 
   def build() do
     %__MODULE__{
-      name: Mix.Project.get().project[:description],
-      version: Mix.Project.get().project[:version],
+      name: @project_name,
+      version: @project_version,
       # the only supported by the library for now.
-      transport: 'http'
+      transport: "http"
     }
   end
 end

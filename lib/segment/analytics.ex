@@ -101,7 +101,7 @@ defmodule Segment.Analytics do
   end
 
   defp post_to_segment(body) do
-    Http.post("/", body)
+    Http.post("", body)
     |> log_result(body)
   end
 
