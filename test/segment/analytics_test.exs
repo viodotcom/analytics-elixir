@@ -1,4 +1,6 @@
 defmodule Segment.Analytics.AnalyticsTest do
+  # not used in async mode because of Bypass
+  # test fail randomly
   use ExUnit.Case
 
   setup do

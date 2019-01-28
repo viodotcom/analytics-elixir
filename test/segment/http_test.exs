@@ -1,4 +1,6 @@
 defmodule Segment.Analytics.HttpTest do
+  # not used in async mode because of Bypass
+  # test fail randomly
   use ExUnit.Case
 
   @apikey "afakekey"

@@ -11,8 +11,8 @@ defmodule Segment.Analytics do
     |> call
   end
 
-  defp valid_track_event(t = %Segment.Analytics.Track{}) do
-    t
+  defp valid_track_event(track = %Segment.Analytics.Track{}) do
+    track
   end
 
   def track(t = %Segment.Analytics.Track{}) do
