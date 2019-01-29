@@ -1,7 +1,11 @@
 defmodule Segment.Analytics.Http do
   use HTTPoison.Base
+  require Logger
 
   def process_url(url) do
+    Logger.info(url)
+    Logger.info(Segment.endpoint())
+
     Segment.endpoint() <> url
   end
 
