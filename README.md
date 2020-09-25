@@ -146,3 +146,12 @@ account by running.
 ```
 SEGMENT_KEY=yourkey mix test
 ```
+
+## Release
+
+After merge a new feature/bug you can bump the version and push it to upstream:
+
+```sh
+make release
+git push origin master && git push origin --tags
+```

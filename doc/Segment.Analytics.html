@@ -1,54 +1,50 @@
-    <!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.14.3">
-    <title>Segment.Analytics – segment v0.1.1</title>
-    <link rel="stylesheet" href="dist/app-091c05798a.css" />
-    
-      <link rel="canonical" href="https://hexdocs.pm/segment/Segment.Analytics.html" />
-    
-    <script src="dist/sidebar_items.js"></script>
+    <meta name="generator" content="ExDoc v0.19.2">
+    <title>Segment.Analytics — analytics_elixir v0.2.0</title>
+    <link rel="stylesheet" href="dist/html-c1666276880c0f8e3769.css" />
+    <script src="dist/sidebar_items-ad833fd9ad.js"></script>
   </head>
   <body data-type="modules">
-    <script>if(localStorage.getItem('night-mode')) document.body.className += ' night-mode';</script>
-
-    <div class="main">
-<button class="sidebar-toggle">
-  <i class="icon-menu"></i>
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
 </button>
 <section class="sidebar">
 
-  
   <a href="api-reference.html" class="sidebar-projectLink">
     <div class="sidebar-projectDetails">
       <h1 class="sidebar-projectName">
-        segment
-      </h1>
+analytics_elixir      </h1>
       <h2 class="sidebar-projectVersion">
-        v0.1.1
+        v0.2.0
       </h2>
     </div>
-    
   </a>
 
-  <div class="sidebar-search">
-    <i class="icon-search"></i>
-    <input type="text" class="sidebar-searchInput" placeholder="search" autocomplete="off" />
-  </div>
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
 
   <ul class="sidebar-listNav">
     <li><a id="extras-list" href="#full-list">Pages</a></li>
 
-    
       <li><a id="modules-list" href="#full-list">Modules</a></li>
-    
 
-    
 
-    
   </ul>
   <div class="gradient"></div>
   <ul id="full-list" class="sidebar-fullList"></ul>
@@ -58,355 +54,275 @@
   <div class="content-outer">
     <div id="content" class="content-inner">
 
-
       <h1>
-        <small class="visible-xs">segment v0.1.1</small>
-        Segment.Analytics
-        
-        
-      </h1>
+        <small class="visible-xs">analytics_elixir v0.2.0</small>
+Segment.Analytics      </h1>
 
-      
 
-      
+
         <section id="summary" class="details-list">
           <h1 class="section-heading">
             <a class="hover-link" href="#summary">
-              <i class="icon-link"></i>
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
             </a>
             Summary
           </h1>
-          
-
-          
   <div class="summary-functions summary">
     <h2>
       <a href="#functions">Functions</a>
     </h2>
-    <div class="summary-row">
+<div class="summary-row">
   <div class="summary-signature">
-    <a href="#alias/1">alias(alias)</a>
+    <a href="#alias/1">alias(a)</a>
   </div>
-  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#alias/3">alias(user_id, previous_id, context \\ Context.new())</a>
+    <a href="#alias/3">alias(user_id, previous_id, context \\ %Context{})</a>
   </div>
-  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#group/1">group(group)</a>
+    <a href="#call/2">call(model, options \\ [])</a>
   </div>
-  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#group/4">group(user_id, group_id, traits \\ %{}, context \\ Context.new())</a>
+    <a href="#group/1">group(g)</a>
   </div>
-  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#identify/1">identify(identify)</a>
+    <a href="#group/4">group(user_id, group_id, traits \\ %{}, context \\ %Context{})</a>
   </div>
-  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#identify/3">identify(user_id, traits \\ %{}, context \\ Context.new())</a>
+    <a href="#identify/1">identify(i)</a>
   </div>
-  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#page/1">page(page)</a>
+    <a href="#identify/3">identify(user_id, traits \\ %{}, context \\ %Context{})</a>
   </div>
-  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#page/4">page(user_id, name \\ &quot;&quot;, properties \\ %{}, context \\ Context.new())</a>
+    <a href="#page/1">page(p)</a>
   </div>
-  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#screen/1">screen(screen)</a>
+    <a href="#page/4">page(user_id, name \\ &quot;&quot;, properties \\ %{}, context \\ %Context{})</a>
   </div>
-  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#screen/4">screen(user_id, name \\ &quot;&quot;, properties \\ %{}, context \\ Context.new())</a>
+    <a href="#screen/1">screen(s)</a>
   </div>
-  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#track/1">track(track)</a>
+    <a href="#screen/4">screen(user_id, name \\ &quot;&quot;, properties \\ %{}, context \\ %Context{})</a>
   </div>
-  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#track/4">track(user_id, event, properties \\ %{}, context \\ Context.new())</a>
+    <a href="#track/1">track(t)</a>
   </div>
-  
 </div>
-
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#track/4">track(user_id, event, properties \\ %{}, context \\ %Context{})</a>
   </div>
-
-
-          
-
-          
-
+</div>
+  </div>
         </section>
-      
 
-      
-
-      
         <section id="functions" class="details-list">
           <h1 class="section-heading">
             <a class="hover-link" href="#functions">
-              <i class="icon-link"></i>
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
             </a>
-            Functions
-          </h1>
-          <div class="detail" id="alias/1">
-  
+Functions          </h1>
+          <div class="functions-list">
+<section class="detail" id="alias/1">
   <div class="detail-header">
     <a href="#alias/1" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">alias(alias)</span>
-    
-    
-    
+    <h1 class="signature">alias(a)</span>
   </div>
   <section class="docstring">
-    
   </section>
-</div>
-<div class="detail" id="alias/3">
-  
-    <span id="alias/2" />
-  
+</section>
+<section class="detail" id="alias/3">
+    <span id="alias/2"></span>
   <div class="detail-header">
     <a href="#alias/3" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">alias(user_id, previous_id, context \\ Context.new())</span>
-    
-    
-    
+    <h1 class="signature">alias(user_id, previous_id, context \\ %Context{})</span>
   </div>
   <section class="docstring">
-    
   </section>
-</div>
-<div class="detail" id="group/1">
-  
+</section>
+<section class="detail" id="call/2">
+    <span id="call/1"></span>
+  <div class="detail-header">
+    <a href="#call/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <h1 class="signature">call(model, options \\ [])</span>
+  </div>
+  <section class="docstring">
+  </section>
+</section>
+<section class="detail" id="group/1">
   <div class="detail-header">
     <a href="#group/1" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">group(group)</span>
-    
-    
-    
+    <h1 class="signature">group(g)</span>
   </div>
   <section class="docstring">
-    
   </section>
-</div>
-<div class="detail" id="group/4">
-  
-    <span id="group/2" />
-  
-    <span id="group/3" />
-  
+</section>
+<section class="detail" id="group/4">
+    <span id="group/2"></span>
+    <span id="group/3"></span>
   <div class="detail-header">
     <a href="#group/4" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">group(user_id, group_id, traits \\ %{}, context \\ Context.new())</span>
-    
-    
-    
+    <h1 class="signature">group(user_id, group_id, traits \\ %{}, context \\ %Context{})</span>
   </div>
   <section class="docstring">
-    
   </section>
-</div>
-<div class="detail" id="identify/1">
-  
+</section>
+<section class="detail" id="identify/1">
   <div class="detail-header">
     <a href="#identify/1" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">identify(identify)</span>
-    
-    
-    
+    <h1 class="signature">identify(i)</span>
   </div>
   <section class="docstring">
-    
   </section>
-</div>
-<div class="detail" id="identify/3">
-  
-    <span id="identify/1" />
-  
-    <span id="identify/2" />
-  
+</section>
+<section class="detail" id="identify/3">
+    <span id="identify/1"></span>
+    <span id="identify/2"></span>
   <div class="detail-header">
     <a href="#identify/3" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">identify(user_id, traits \\ %{}, context \\ Context.new())</span>
-    
-    
-    
+    <h1 class="signature">identify(user_id, traits \\ %{}, context \\ %Context{})</span>
   </div>
   <section class="docstring">
-    
   </section>
-</div>
-<div class="detail" id="page/1">
-  
+</section>
+<section class="detail" id="page/1">
   <div class="detail-header">
     <a href="#page/1" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">page(page)</span>
-    
-    
-    
+    <h1 class="signature">page(p)</span>
   </div>
   <section class="docstring">
-    
   </section>
-</div>
-<div class="detail" id="page/4">
-  
-    <span id="page/1" />
-  
-    <span id="page/2" />
-  
-    <span id="page/3" />
-  
+</section>
+<section class="detail" id="page/4">
+    <span id="page/1"></span>
+    <span id="page/2"></span>
+    <span id="page/3"></span>
   <div class="detail-header">
     <a href="#page/4" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">page(user_id, name \\ &quot;&quot;, properties \\ %{}, context \\ Context.new())</span>
-    
-    
-    
+    <h1 class="signature">page(user_id, name \\ &quot;&quot;, properties \\ %{}, context \\ %Context{})</span>
   </div>
   <section class="docstring">
-    
   </section>
-</div>
-<div class="detail" id="screen/1">
-  
+</section>
+<section class="detail" id="screen/1">
   <div class="detail-header">
     <a href="#screen/1" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">screen(screen)</span>
-    
-    
-    
+    <h1 class="signature">screen(s)</span>
   </div>
   <section class="docstring">
-    
   </section>
-</div>
-<div class="detail" id="screen/4">
-  
-    <span id="screen/1" />
-  
-    <span id="screen/2" />
-  
-    <span id="screen/3" />
-  
+</section>
+<section class="detail" id="screen/4">
+    <span id="screen/1"></span>
+    <span id="screen/2"></span>
+    <span id="screen/3"></span>
   <div class="detail-header">
     <a href="#screen/4" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">screen(user_id, name \\ &quot;&quot;, properties \\ %{}, context \\ Context.new())</span>
-    
-    
-    
+    <h1 class="signature">screen(user_id, name \\ &quot;&quot;, properties \\ %{}, context \\ %Context{})</span>
   </div>
   <section class="docstring">
-    
   </section>
-</div>
-<div class="detail" id="track/1">
-  
+</section>
+<section class="detail" id="track/1">
   <div class="detail-header">
     <a href="#track/1" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">track(track)</span>
-    
-    
-    
+    <h1 class="signature">track(t)</span>
   </div>
   <section class="docstring">
-    
   </section>
-</div>
-<div class="detail" id="track/4">
-  
-    <span id="track/2" />
-  
-    <span id="track/3" />
-  
+</section>
+<section class="detail" id="track/4">
+    <span id="track/2"></span>
+    <span id="track/3"></span>
   <div class="detail-header">
     <a href="#track/4" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">track(user_id, event, properties \\ %{}, context \\ Context.new())</span>
-    
-    
-    
+    <h1 class="signature">track(user_id, event, properties \\ %{}, context \\ %Context{})</span>
   </div>
   <section class="docstring">
-    
   </section>
-</div>
-
+</section>
+          </div>
         </section>
-      
-
-      
-
-      
-          <footer class="footer">
+      <footer class="footer">
         <p>
           <span class="line">
             Built using
-            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.14.3),
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.2),
           </span>
           <span class="line">
             designed by
-            <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
             </span>
         </p>
-        <button class="night-mode-toggle" />
       </footer>
     </div>
   </div>
 </section>
 </div>
-  <script src="dist/app-574613960f.js"></script>
+  <script src="dist/html-c1666276880c0f8e3769.js"></script>
   </body>
 </html>
-
