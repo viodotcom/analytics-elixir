@@ -1,4 +1,4 @@
-analytics-elixir
+analytics-elixir ![analytics-elixir](https://github.com/FindHotel/analytics-elixir/workflows/analytics-elixir/badge.svg?branch=master)
 ================
 
 analytics-elixir is a non-supported third-party client for [Segment](https://segment.com)
