@@ -8,7 +8,7 @@ defmodule Segment.Encoder do
 
   ## Options
 
-      * `drop_nil_fields`: If set to `true` all the struct `nil` fileds will be
+      * `drop_nil_fields`: If set to `true` all the struct `nil` fields will be
       filtered out from the JSON string. Defaults to `false`.
 
   ## Examples
@@ -35,6 +35,7 @@ defmodule Segment.Encoder do
     |> Poison.encode!()
   end
 
+  @spec maybe_drop_nil_fields(struct(), list()) :: String.t()
   defp maybe_drop_nil_fields(struct, options) do
     if Keyword.get(options, :drop_nil_fields) == true do
       drop_nil_fields_from_struct(struct)
@@ -43,14 +44,17 @@ defmodule Segment.Encoder do
     end
   end
 
+  @spec drop_nil_fields_from_struct(struct()) :: map()
   defp drop_nil_fields_from_struct(struct) do
     struct
     |> Map.from_struct()
     |> drop_nil_fields_from_map()
   end
 
+  @spec drop_nil_fields_from_map(map()) :: map()
   def drop_nil_fields_from_map(map), do: Enum.reduce(map, %{}, &drop_nil_fields/2)
 
+  @spec drop_nil_fields({any(), any()}, map()) :: map()
   defp drop_nil_fields({key, value}, map) when is_struct(value),
     do: Map.put(map, key, drop_nil_fields_from_struct(value))
 

@@ -33,5 +33,16 @@ defmodule Segment.EncoderTest do
 
       assert Subject.encode!(batch, drop_nil_fields: true) == expected_response
     end
+
+    test "when `drop_nil_fields` option is set to something different than `true`," <>
+           "returns a JSON string with `null` attributes",
+         %{batch: batch} do
+      expected_response =
+        :batch
+        |> Factory.map_for()
+        |> Poison.encode!()
+
+      assert Subject.encode!(batch, drop_nil_fields: "Please don't") == expected_response
+    end
   end
 end
