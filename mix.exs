@@ -39,6 +39,7 @@ defmodule AnalyticsElixir.Mixfile do
       {:poison, "~> 4.0"},
       {:uuid, "~> 1.1"},
       {:meta_logger, "~> 1.3"},
+      {:typed_struct, "~> 0.2"},
 
       # Dev
       {:ex_doc, "~> 0.19", only: :dev, runtime: false},
