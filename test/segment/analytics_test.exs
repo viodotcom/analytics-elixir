@@ -86,7 +86,8 @@ defmodule Segment.Analytics.AnalyticsTest do
         end)
 
       assert log =~
-               ~s(call success: 200 with body: {"another": {"json": ["response"]}}, "address":{}})
+               ~s([Segment.Analytics] call success: 200 with body: ) <>
+                 ~s({"another": {"json": ["response"]}}, "address":{}})
     end
 
     test "when `drop_nil_fields` option is set to `true`, sends an event without " <>

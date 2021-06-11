@@ -1,4 +1,6 @@
 defmodule Segment.Analytics do
+  alias HTTPoison.{Error, Response}
+
   alias Segment.Analytics.{Batch, Context, Http, ResponseFormatter}
   alias Segment.Encoder
 
@@ -100,19 +102,19 @@ defmodule Segment.Analytics do
 
   defp post_to_segment(body, options) do
     Http.post("", body, options)
-    |> ResponseFormatter.build()
+    |> ResponseFormatter.build(prefix: __MODULE__)
     |> tap(&MetaLogger.log(:debug, &1))
     |> handle_response()
   end
 
-  defp handle_response(%{payload: %{status_code: code, body: body}})
-       when code in 200..299 do
+  defp handle_response(%{payload: %{data: %Response{body: body, status_code: status_code}}})
+       when status_code in 200..299 do
     {:ok, body}
   end
 
-  defp handle_response(%{status: :ok, payload: %{body: body}}), do: {:error, body}
+  defp handle_response(%{payload: %{data: %Response{body: body}}}), do: {:error, body}
 
-  defp handle_response(%{status: :error, payload: %{reason: reason}}) do
+  defp handle_response(%{payload: %{data: %Error{reason: reason}}}) do
     {:error, Enum.join([~s({"reason":"), inspect(reason), ~s("})])}
   end
 end

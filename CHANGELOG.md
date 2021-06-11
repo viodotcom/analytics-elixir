@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Use `MetaLogger.Formatter` for formatting logs and masking sensitive fields.
 
 ## [1.0.0] - 2020-12-23
 ### Added
