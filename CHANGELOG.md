@@ -7,6 +7,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.2.1] - 2022-02-25
+
 ## Changed
 - Bump Poison to v5.0
 
@@ -43,7 +45,8 @@ and `Segment.Analytics.Group`.
 ### Added
 - First release.
 
-[Unreleased]: https://github.com/FindHotel/analytics-elixir/compare/1.2.0...master
+[Unreleased]: https://github.com/FindHotel/analytics-elixir/compare/1.2.1...master
+[1.2.1]: https://github.com/FindHotel/analytics-elixir/compare/1.2.0...1.2.1
 [1.2.0]: https://github.com/FindHotel/analytics-elixir/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/FindHotel/analytics-elixir/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/FindHotel/analytics-elixir/compare/0.2.2...1.0.0
