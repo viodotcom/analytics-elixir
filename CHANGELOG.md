@@ -7,6 +7,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## Changed
+- Bump Poison to v5.0
+
 ## [1.2.0] - 2021-06-21
 ### Added
 - Use `MetaLogger.Formatter` for formatting logs and masking sensitive fields.
