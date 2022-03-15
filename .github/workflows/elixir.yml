@@ -39,3 +39,6 @@ jobs:
 
     - name: Check formatted
       run: mix format --check-formatted
+
+    - name: Run Dialyzer
+      run: mix dialyzer
