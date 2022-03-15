@@ -35,17 +35,19 @@ defmodule AnalyticsElixir.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [
-      {:httpoison, "~> 1.4"},
-      {:poison, "~> 5.0"},
-      {:uuid, "~> 1.1"},
+      {:decimal, "~> 2.0"},
+      {:httpoison, "~> 1.8"},
       {:meta_logger, "~> 1.4"},
+      {:miss, "~> 0.1"},
+      {:poison, "~> 5.0"},
       {:typed_struct, "~> 0.2"},
+      {:uuid, "~> 1.1"},
 
       # Dev
-      {:ex_doc, "~> 0.19", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.28", only: :dev, runtime: false},
 
       # Test
-      {:bypass, "~> 1.0", only: :test}
+      {:bypass, "~> 2.0", only: :test}
     ]
   end
 

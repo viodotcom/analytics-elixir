@@ -1,8 +1,25 @@
 defmodule Segment.Support.Factory do
   alias Segment.Analytics.{Batch, Context, Track}
 
-  defmodule Properties, do: defstruct([:foo, :bar, :baz, :qux, :corge, :grault, :garply, :waldo])
-  defmodule NestedProperties, do: defstruct([:foo, :bar, :baz, :qux])
+  defmodule Properties do
+    defstruct ~w(
+        foo
+        bar
+        baz
+        decimal
+        date
+        datetime
+        qux
+        corge
+        grault
+        garply
+        waldo
+      )a
+  end
+
+  defmodule NestedProperties do
+    defstruct ~w(foo bar baz qux)a
+  end
 
   def build(:batch) do
     %Batch{
@@ -23,6 +40,9 @@ defmodule Segment.Support.Factory do
               %NestedProperties{bar: 2.5, baz: "baz", foo: 1, qux: nil},
               %NestedProperties{}
             ],
+            decimal: Decimal.new("123.33"),
+            date: ~D[2016-05-24],
+            datetime: ~U[2016-05-24 13:26:08.003Z],
             qux: nil,
             waldo: %NestedProperties{bar: 2.5, baz: "baz", foo: 1, qux: nil}
           }
@@ -72,6 +92,9 @@ defmodule Segment.Support.Factory do
         %{bar: nil, baz: nil, foo: nil, qux: nil}
       ],
       qux: nil,
+      decimal: 123.33,
+      date: "2016-05-24",
+      datetime: "2016-05-24T13:26:08.003Z",
       waldo: %{bar: 2.5, baz: "baz", foo: 1, qux: nil}
     }
   end
@@ -90,6 +113,9 @@ defmodule Segment.Support.Factory do
         %{bar: 2.5, baz: "baz", foo: 1},
         %{}
       ],
+      decimal: 123.33,
+      date: "2016-05-24",
+      datetime: "2016-05-24T13:26:08.003Z",
       waldo: %{bar: 2.5, baz: "baz", foo: 1}
     }
   end
