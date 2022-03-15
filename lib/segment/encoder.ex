@@ -28,7 +28,7 @@ defmodule Segment.Encoder do
       ~s({"version":"1.0.0","name":"foo"})
 
   """
-  @spec encode!(struct(), list()) :: String.t()
+  @spec encode!(struct(), keyword()) :: String.t()
   def encode!(struct, options) do
     struct
     |> Miss.Map.from_nested_struct([
