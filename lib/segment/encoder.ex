@@ -40,7 +40,7 @@ defmodule Segment.Encoder do
     |> Poison.encode!()
   end
 
-  @spec maybe_drop_nil_fields(map(), list()) :: map()
+  @spec maybe_drop_nil_fields(map(), keyword()) :: map()
   defp maybe_drop_nil_fields(map, options) do
     if Keyword.get(options, :drop_nil_fields) == true do
       drop_nil_fields_from_map(map)
