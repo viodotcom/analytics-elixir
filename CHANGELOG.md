@@ -7,6 +7,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.3.1] - 2022-03-17
+
 ## Changed
 
 - Update the `miss` library.
@@ -70,7 +72,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - First release.
 
-[unreleased]: https://github.com/FindHotel/analytics-elixir/compare/1.3.0...master
+[unreleased]: https://github.com/FindHotel/analytics-elixir/compare/1.3.1...master
+[1.3.1]: https://github.com/FindHotel/analytics-elixir/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/FindHotel/analytics-elixir/compare/1.2.1...1.3.0
 [1.2.1]: https://github.com/FindHotel/analytics-elixir/compare/1.2.0...1.2.1
 [1.2.0]: https://github.com/FindHotel/analytics-elixir/compare/1.1.0...1.2.0
