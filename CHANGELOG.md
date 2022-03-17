@@ -7,6 +7,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## Changed
+
+- Update the `miss` library.
+
 ## [1.3.0] - 2022-03-16
 
 ## Changed
