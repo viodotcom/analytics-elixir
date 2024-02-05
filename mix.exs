@@ -37,8 +37,7 @@ defmodule AnalyticsElixir.Mixfile do
     [
       {:decimal, "~> 2.0"},
       {:httpoison, "~> 1.8"},
-      # {:meta_logger, "~> 1.4"},
-      {:meta_logger, github: "altjohndev/meta_logger", branch: "chore-warn-to-warning"},
+      {:meta_logger, "~> 1.4"},
       {:miss, "~> 0.1"},
       {:poison, "~> 5.0"},
       {:typed_struct, "~> 0.2", runtime: false},
