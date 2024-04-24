@@ -142,4 +142,11 @@ defmodule Segment.Support.Factory do
       type: "track"
     }
   end
+
+  def string_map_for(key) do
+    key
+    |> map_for()
+    |> Poison.encode!()
+    |> Poison.decode!()
+  end
 end

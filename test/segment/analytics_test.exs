@@ -1,193 +1,186 @@
-defmodule Segment.Analytics.AnalyticsTest do
-  # not used in async mode because of Bypass
-  # test fail randomly
-  use ExUnit.Case
+defmodule Segment.AnalyticsTest do
+  # Required to be sync in order to isolate logs
+  # and so that the created process can use the global Tesla adapter.
+  use ExUnit.Case, async: false
+
   import ExUnit.CaptureLog
+  import Tesla.Mock
 
-  setup do
-    bypass = Bypass.open()
-    start_supervised({Segment, [key: "123", endpoint: endpoint_url(bypass.port)]})
-    version = Mix.Project.get().project[:version]
+  alias Segment.Analytics, as: Subject
 
-    event = %Segment.Analytics.Track{
-      userId: nil,
-      event: "test1",
-      properties: %{},
-      context: %Segment.Analytics.Context{}
-    }
+  @default_event %Segment.Analytics.Track{
+    userId: nil,
+    event: "test1",
+    properties: %{},
+    context: %Segment.Analytics.Context{}
+  }
 
-    expected_request_body = %{
-      "batch" => [
-        %{
-          "anonymousId" => nil,
-          "context" => %{
-            "app" => nil,
-            "ip" => nil,
-            "library" => %{
-              "name" => "analytics_elixir",
-              "transport" => "http",
-              "version" => version
-            },
-            "location" => nil,
-            "os" => nil,
-            "page" => nil,
-            "referrer" => nil,
-            "screen" => nil,
-            "timezone" => nil,
-            "traits" => nil,
-            "userAgent" => nil
+  @version Mix.Project.get().project[:version]
+
+  @default_request_body %{
+    "batch" => [
+      %{
+        "anonymousId" => nil,
+        "context" => %{
+          "app" => nil,
+          "ip" => nil,
+          "library" => %{
+            "name" => "analytics_elixir",
+            "transport" => "http",
+            "version" => @version
           },
-          "event" => "test1",
-          "properties" => %{},
-          "timestamp" => nil,
-          "type" => "track",
-          "userId" => nil,
-          "version" => nil
-        }
-      ]
-    }
+          "location" => nil,
+          "os" => nil,
+          "page" => nil,
+          "referrer" => nil,
+          "screen" => nil,
+          "timezone" => nil,
+          "traits" => nil,
+          "userAgent" => nil
+        },
+        "event" => "test1",
+        "properties" => %{},
+        "timestamp" => nil,
+        "type" => "track",
+        "userId" => nil,
+        "version" => nil
+      }
+    ]
+  }
 
-    expected_response = ~s({"another": {"json": ["response"]}}, "address":{"city": "Amsterdam"}})
-
-    {:ok,
-     bypass: bypass,
-     event: event,
-     expected_request_body: expected_request_body,
-     expected_response: expected_response,
-     version: version}
-  end
+  @mocked_response_body Poison.encode!(%{
+                          "another" => %{"json" => ["response"]},
+                          "address" => %{"city" => "Amsterdam"}
+                        })
 
   describe "call/2" do
-    test "sends an event, and returns the response", %{
-      bypass: bypass,
-      event: event,
-      expected_request_body: expected_request_body,
-      expected_response: expected_response
-    } do
-      Bypass.expect(bypass, fn conn ->
-        {:ok, received_body, _conn} = Plug.Conn.read_body(conn)
+    test "sends an event, and returns the response" do
+      mock_request(@default_request_body, {200, [], @mocked_response_body})
 
-        # messageId and sentAt are not asserted
-        %{"batch" => [received_event | _received_events]} =
-          received_body
-          |> Poison.decode!()
-          |> Map.delete("sentAt")
-
-        received_event = Map.delete(received_event, "messageId")
-
-        assert %{"batch" => [received_event]} == expected_request_body
-        Plug.Conn.resp(conn, 200, expected_response)
-      end)
-
-      log =
-        capture_log(fn ->
-          task = Segment.Analytics.call(event)
-          assert {:ok, expected_response} == Task.await(task)
-        end)
-
-      assert log =~
-               ~s([Segment.Analytics] call success: 200 with body: ) <>
-                 ~s({"another": {"json": ["response"]}}, "address":{}})
+      assert_call_result(@default_event, {:ok, @mocked_response_body}, [
+        [
+          "[info] [Segment.Analytics.HTTP] POST https://api.segment.io/v1/",
+          ~s({"x-api-key", "[FILTERED]"}])
+        ],
+        "[info] [Segment.Analytics.HTTP] {",
+        "[info] [Segment.Analytics.HTTP] 200",
+        ["[info] [Segment.Analytics.HTTP] {", ~s("address":{})]
+      ])
     end
 
     test "when `drop_nil_fields` option is set to `true`, sends an event without " <>
-           "null JSON attributes, and returns the response",
-         %{
-           bypass: bypass,
-           event: event,
-           expected_response: expected_response,
-           version: version
-         } do
-      expected_request_body = %{
-        "batch" => [
-          %{
-            "context" => %{
-              "library" => %{
-                "name" => "analytics_elixir",
-                "transport" => "http",
-                "version" => version
-              }
-            },
-            "event" => "test1",
-            "properties" => %{},
-            "type" => "track"
-          }
+           "null JSON attributes, and returns the response" do
+      mock_request(
+        %{
+          "batch" => [
+            %{
+              "context" => %{
+                "library" => %{
+                  "name" => "analytics_elixir",
+                  "transport" => "http",
+                  "version" => @version
+                }
+              },
+              "event" => "test1",
+              "properties" => %{},
+              "type" => "track"
+            }
+          ]
+        },
+        {200, [], @mocked_response_body}
+      )
+
+      assert_call_result(
+        @default_event,
+        [drop_nil_fields: true],
+        {:ok, @mocked_response_body},
+        [
+          [
+            "[info] [Segment.Analytics.HTTP] POST https://api.segment.io/v1/",
+            ~s({"x-api-key", "[FILTERED]"}])
+          ],
+          "[info] [Segment.Analytics.HTTP] {",
+          "[info] [Segment.Analytics.HTTP] 200",
+          ["[info] [Segment.Analytics.HTTP] {", ~s("address":{})]
         ]
-      }
+      )
+    end
 
-      Bypass.expect(bypass, fn conn ->
-        {:ok, received_body, _conn} = Plug.Conn.read_body(conn)
+    test "sends an event using endpoint and key from options, and returns the response" do
+      mock_request(@default_request_body, {200, [], @mocked_response_body})
 
-        # messageId and sentAt are not asserted
-        %{"batch" => [received_event | _received_events]} =
-          received_body
-          |> Poison.decode!()
-          |> Map.delete("sentAt")
+      assert_call_result(
+        @default_event,
+        [endpoint: "https://some-other-endpoint.vio.io/", key: "anotherkey"],
+        {:ok, @mocked_response_body},
+        [
+          [
+            "[info] [Segment.Analytics.HTTP] POST https://some-other-endpoint.vio.io/",
+            ~s({"x-api-key", "[FILTERED]"}])
+          ],
+          "[info] [Segment.Analytics.HTTP] {",
+          "[info] [Segment.Analytics.HTTP] 200",
+          ["[info] [Segment.Analytics.HTTP] {", ~s("address":{})]
+        ]
+      )
+    end
 
-        received_event = Map.delete(received_event, "messageId")
+    test "when failed to reach the server, returns error" do
+      mock_request(@default_request_body, {:error, :nxdomain})
 
-        assert %{"batch" => [received_event]} == expected_request_body
-        Plug.Conn.resp(conn, 200, expected_response)
-      end)
-
-      task = Segment.Analytics.call(event, drop_nil_fields: true)
-      assert {:ok, expected_response} == Task.await(task)
+      assert_call_result(@default_event, [max_retries: 0], {:error, ":nxdomain"}, [
+        [
+          "[info] [Segment.Analytics.HTTP] POST https://api.segment.io/v1/",
+          ~s({"x-api-key", "[FILTERED]"}])
+        ],
+        "[info] [Segment.Analytics.HTTP] {",
+        "[error] [Segment.Analytics.HTTP] :nxdomain",
+        "[error] [Elixir.Segment.Analytics] Segment API request failed"
+      ])
     end
   end
 
-  describe "call/2 when another endpoint and key were given" do
-    setup %{bypass: bypass} do
-      Bypass.expect(bypass, fn _conn ->
-        flunk("#{endpoint_url(bypass.port)} shouldn't be called")
-      end)
+  defp mock_request(expected_request_body, response) do
+    mock_global(fn %Tesla.Env{} = env ->
+      request_body =
+        env.body
+        |> Poison.decode!()
+        |> Map.delete("sentAt")
+        |> Map.update!("batch", &Enum.map(&1, fn event -> Map.delete(event, "messageId") end))
 
-      Bypass.pass(bypass)
+      assert request_body == expected_request_body
 
-      {:ok, bypass: Bypass.open()}
-    end
-
-    test "sends an event using endpoint and key from options, and returns the response", %{
-      bypass: bypass,
-      event: event,
-      expected_request_body: expected_request_body,
-      expected_response: expected_response
-    } do
-      Bypass.expect(bypass, fn conn ->
-        {:ok, received_body, _conn} = Plug.Conn.read_body(conn)
-
-        # messageId and sentAt are not asserted
-        %{"batch" => [received_event | _received_events]} =
-          received_body
-          |> Poison.decode!()
-          |> Map.delete("sentAt")
-
-        received_event = Map.delete(received_event, "messageId")
-
-        assert %{"batch" => [received_event]} == expected_request_body
-        Plug.Conn.resp(conn, 200, expected_response)
-      end)
-
-      options = [key: "anotherkey", endpoint: endpoint_url(bypass.port)]
-
-      task = Segment.Analytics.call(event, options)
-      assert {:ok, expected_response} == Task.await(task)
-    end
-
-    test "when fail to reach the server returns error", %{event: event} do
-      expected_response = ~s({"reason":":nxdomain"})
-
-      options = [key: "invalidendpoint", endpoint: "http://invalidend.point"]
-
-      log =
-        capture_log(fn ->
-          task = Segment.Analytics.call(event, options)
-          assert {:error, expected_response} == Task.await(task)
-        end)
-
-      assert log =~
-               ~s(call failed: %HTTPoison.Error{id: nil, reason: :nxdomain} with reason: :nxdomain)
-    end
+      response
+    end)
   end
 
-  defp endpoint_url(port), do: "http://localhost:#{port}/"
+  defp assert_call_result(event, expected_result, expected_logs) do
+    # asserts call/1
+    assert_call_result(event, nil, expected_result, expected_logs)
+    # asserts call/2
+    assert_call_result(event, [], expected_result, expected_logs)
+  end
+
+  defp assert_call_result(event, options, expected_result, expected_logs) do
+    fn ->
+      result =
+        case options do
+          nil -> Subject.call(event)
+          options -> Subject.call(event, options)
+        end
+
+      assert %Task{} = task = result
+
+      assert Task.await(task) == expected_result
+    end
+    |> capture_log()
+    |> String.replace([IO.ANSI.normal(), IO.ANSI.red(), IO.ANSI.reset()], "")
+    |> String.split("\n", trim: true)
+    |> Enum.zip(List.wrap(expected_logs))
+    |> Enum.each(fn {log, expected_log_substrings} ->
+      for expected_log_substring <- List.wrap(expected_log_substrings) do
+        assert log =~ expected_log_substring
+      end
+    end)
+  end
 end

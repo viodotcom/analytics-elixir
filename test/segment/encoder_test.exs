@@ -3,8 +3,7 @@ defmodule Segment.EncoderTest do
 
   alias Segment.Encoder, as: Subject
 
-  doctest Subject
-
+  alias Segment.Config
   alias Segment.Support.Factory
 
   describe "encode!/2" do
@@ -15,34 +14,28 @@ defmodule Segment.EncoderTest do
     end
 
     test "transforms a struct into a JSON string", %{batch: batch} do
-      expected_response =
-        :batch
-        |> Factory.map_for()
-        |> Poison.encode!()
-
-      assert Subject.encode!(batch, []) == expected_response
+      assert_encode!(batch, %Config{}, :batch)
     end
 
     test "when `drop_nil_fields` options is `true`, " <>
            "returns a JSON string without `null` attributes",
          %{batch: batch} do
-      expected_response =
-        :batch_without_null
-        |> Factory.map_for()
-        |> Poison.encode!()
-
-      assert Subject.encode!(batch, drop_nil_fields: true) == expected_response
+      assert_encode!(batch, %Config{drop_nil_fields: true}, :batch_without_null)
     end
 
     test "when `drop_nil_fields` option is set to something different than `true`," <>
            "returns a JSON string with `null` attributes",
          %{batch: batch} do
-      expected_response =
-        :batch
-        |> Factory.map_for()
-        |> Poison.encode!()
-
-      assert Subject.encode!(batch, drop_nil_fields: "Please don't") == expected_response
+      assert_encode!(batch, %Config{drop_nil_fields: "Please don't"}, :batch)
     end
+  end
+
+  defp assert_encode!(batch, %Config{} = config, result_factory) do
+    # For OTP 26+, it is required to parse the encoded value back to map since the order is not
+    # predictable.
+
+    result = Subject.encode!(batch, config)
+
+    assert Poison.decode!(result) == Factory.string_map_for(result_factory)
   end
 end

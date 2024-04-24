@@ -1,7 +1,5 @@
 defmodule Segment.Analytics.Context.LibraryTest do
-  # not used in async mode because of Bypass
-  # test fail randomly
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   alias Segment.Analytics.Context.Library
 

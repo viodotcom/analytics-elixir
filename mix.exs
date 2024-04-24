@@ -40,6 +40,7 @@ defmodule AnalyticsElixir.Mixfile do
       {:meta_logger, "~> 1.4"},
       {:miss, "~> 0.1"},
       {:poison, "~> 5.0"},
+      {:tesla, "~> 1.5"},
       {:typed_struct, "~> 0.2", runtime: false},
       {:uuid, "~> 1.1"},
 
@@ -47,10 +48,7 @@ defmodule AnalyticsElixir.Mixfile do
       {:ex_doc, "~> 0.28", only: :dev, runtime: false},
 
       # Static analysis
-      {:dialyxir, "~> 1.1", only: :dev, runtime: false},
-
-      # Test
-      {:bypass, "~> 2.0", only: :test}
+      {:dialyxir, "~> 1.1", only: :dev, runtime: false}
     ]
   end
 
