@@ -27,10 +27,10 @@ defmodule Segment do
       import Config
 
       config :segment,
-        disable_meta_logger: #{inspect(@default_config.drop_nil_fields)},
+        disable_meta_logger: #{inspect(@default_config.disable_meta_logger)},
         drop_nil_fields: #{inspect(@default_config.drop_nil_fields)},
         endpoint: #{inspect(@default_config.endpoint)},
-        filter_body: #{inspect(@default_config.filter_body, pretty: true)},
+        filter_body: #{inspect(@default_config.filter_body)},
         http_adapter: #{inspect(@default_config.http_adapter)},
         key: "a-valid-api-key",
         max_retries: #{inspect(@default_config.max_retries)},
