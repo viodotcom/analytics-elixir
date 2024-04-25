@@ -50,9 +50,11 @@ defmodule Segment.Analytics.HTTP do
     ]
   end
 
+  @spec should_retry?(Tesla.Env.result()) :: boolean()
   defp should_retry?({:ok, %Tesla.Env{} = env}) when response_ok?(env), do: false
   defp should_retry?(_result), do: true
 
+  @spec meta_logger(Config.t()) :: Keyword.t()
   defp meta_logger(%Config{} = config) do
     [
       filter_body: config.filter_body,
