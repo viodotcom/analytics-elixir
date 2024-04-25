@@ -33,7 +33,12 @@ defmodule Segment.Config do
   def get(fields \\ []) do
     :segment
     |> Application.get_all_env()
-    |> Keyword.merge(fields)
+    |> reject_nil_values()
+    |> Keyword.merge(reject_nil_values(fields))
     |> then(&struct(__MODULE__, &1))
   end
+
+  @spec reject_nil_values(Keyword.t()) :: Keyword.t()
+  defp reject_nil_values(keywords),
+    do: Keyword.reject(keywords, fn {_key, value} -> is_nil(value) end)
 end
