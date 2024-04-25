@@ -7,21 +7,44 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- Replaced `HTTPoison` library with `Tesla`.
+
+### Removed
+
+- Removed `Agent` strategy in favor of configuration. See `t:Segment.options/0` for configuration
+  instructions.
+
+### Added
+
+- Retry mechanism for Segment API requests.
+- Request and response logs through `MetaLogger`.
+- Additional options available (see `t:Segment.options/0` for documentation):
+  - `:disable_meta_logger`
+  - `:filter_body`
+  - `:http_adapter`
+  - `:max_retries`
+  - `:request_timeout`
+  - `:retry_base_delay`
+  - `:retry_jitter_factor`
+  - `:retry_max_delay`
+
 ## [1.3.1] - 2022-03-17
 
-## Changed
+### Changed
 
 - Update the `miss` library.
 
 ## [1.3.0] - 2022-03-16
 
-## Changed
+### Changed
 
 - Fix the encoding for Decimal, Date and DateTime structs.
 
 ## [1.2.1] - 2022-02-25
 
-## Changed
+### Changed
 
 - Bump Poison to v5.0.
 

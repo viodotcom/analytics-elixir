@@ -36,7 +36,6 @@ defmodule AnalyticsElixir.Mixfile do
   defp deps do
     [
       {:decimal, "~> 2.0"},
-      {:httpoison, "~> 1.8"},
       {:meta_logger, "~> 1.4"},
       {:miss, "~> 0.1"},
       {:poison, "~> 5.0"},
