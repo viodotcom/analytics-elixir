@@ -231,7 +231,7 @@ defmodule Segment.AnalyticsTest do
   end
 
   defp analytics_failed_logs,
-    do: ["[error] [Elixir.Segment.Analytics] Segment API request failed"]
+    do: ["[error] [Segment.Analytics] Segment API request failed"]
 
   defp retried_successful_logs(amount, reason),
     do: Enum.flat_map(1..amount, fn _index -> api_failed_logs(reason) end) ++ successful_logs()

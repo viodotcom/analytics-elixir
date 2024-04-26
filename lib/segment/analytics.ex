@@ -105,7 +105,11 @@ defmodule Segment.Analytics do
   """
   @spec call(Segment.model(), Segment.options()) :: Task.t()
   def call(model, options \\ []) do
+    caller_metadata = MetaLogger.metadata()
+
     Task.async(fn ->
+      Logger.metadata(caller_metadata)
+
       %Config{} = config = Config.get(options)
 
       model
@@ -146,5 +150,9 @@ defmodule Segment.Analytics do
 
   @spec log_post_result(Logger.level(), String.t(), Config.t()) :: :ok
   defp log_post_result(log_level, message, %Config{} = config),
-    do: Logger.log(log_level, "[#{config.prefix}] #{message}")
+    do: Logger.log(log_level, "[#{log_tag(config.prefix)}] #{message}")
+
+  @spec log_tag(atom() | String.t()) :: String.t()
+  defp log_tag(string) when is_binary(string), do: string
+  defp log_tag(value), do: inspect(value)
 end
