@@ -64,7 +64,7 @@ defmodule Segment do
     Defaults to `#{inspect(@default_config.retry_base_delay)}`.
   - `:retry_jitter_factor` - Additive noise multiplier to update the retry delay.
     Defaults to `#{inspect(@default_config.retry_jitter_factor)}`.
-  - `:retry_max_delay` - Maxium delay in milliseconds to wait before attempting a new request.
+  - `:retry_max_delay` - Maximum delay in milliseconds to wait before attempting a new request.
     Defaults to `#{inspect(@default_config.retry_max_delay)}`.
 
   """
