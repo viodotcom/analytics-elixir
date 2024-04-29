@@ -1,7 +1,14 @@
 defmodule Segment.Analytics do
-  alias HTTPoison.{Error, Response}
+  @moduledoc """
+  Performs requests to Segment API.
+  """
 
-  alias Segment.Analytics.{Batch, Context, Http, ResponseFormatter}
+  require Logger
+
+  alias Segment.Analytics.Batch
+  alias Segment.Analytics.Context
+  alias Segment.Analytics.HTTP
+  alias Segment.Config
   alias Segment.Encoder
 
   def track(t = %Segment.Analytics.Track{}), do: call(t)
@@ -13,7 +20,7 @@ defmodule Segment.Analytics do
       properties: properties,
       context: context
     }
-    |> call
+    |> call()
   end
 
   def identify(i = %Segment.Analytics.Identify{}), do: call(i)
@@ -24,7 +31,7 @@ defmodule Segment.Analytics do
       traits: traits,
       context: context
     }
-    |> call
+    |> call()
   end
 
   def screen(s = %Segment.Analytics.Screen{}), do: call(s)
@@ -36,7 +43,7 @@ defmodule Segment.Analytics do
       properties: properties,
       context: context
     }
-    |> call
+    |> call()
   end
 
   def alias(a = %Segment.Analytics.Alias{}), do: call(a)
@@ -47,7 +54,7 @@ defmodule Segment.Analytics do
       previousId: previous_id,
       context: context
     }
-    |> call
+    |> call()
   end
 
   def group(g = %Segment.Analytics.Group{}), do: call(g)
@@ -59,7 +66,7 @@ defmodule Segment.Analytics do
       traits: traits,
       context: context
     }
-    |> call
+    |> call()
   end
 
   def page(p = %Segment.Analytics.Page{}), do: call(p)
@@ -71,17 +78,46 @@ defmodule Segment.Analytics do
       properties: properties,
       context: context
     }
-    |> call
+    |> call()
   end
 
+  @doc """
+  Returns a `Task` that must be awaited on that merges the options received with the application
+  environment and sends the payload to the Segment API.
+
+  The task returns `{:ok, binary}` with the raw response body if the request succeeded with
+  valid result.
+
+  On failure, the task returns `{:error, binary}` with either the raw response body if the
+  request succeded or the inspected error otherwise.
+
+  For options documentation, see `t:Segment.options/0`.
+
+  ## Examples
+
+      iex> model = %Segment.Analytics.Page{...}
+      ...> #{inspect(__MODULE__)}.call(model)
+      %Task{...}
+
+      ...> #{inspect(__MODULE__)}.call(model, max_retries: 2)
+      %Task{...}
+
+  """
+  @spec call(Segment.model(), Segment.options()) :: Task.t()
   def call(model, options \\ []) do
+    caller_metadata = MetaLogger.metadata()
+
     Task.async(fn ->
+      Logger.metadata(caller_metadata)
+
+      %Config{} = config = Config.get(options)
+
       model
       |> generate_message_id()
       |> fill_context()
       |> wrap_in_batch()
-      |> Encoder.encode!(options)
-      |> post_to_segment(options)
+      |> Encoder.encode!(config)
+      |> post_to_segment(config)
     end)
   end
 
@@ -100,21 +136,23 @@ defmodule Segment.Analytics do
     }
   end
 
-  defp post_to_segment(body, options) do
-    Http.post("", body, options)
-    |> ResponseFormatter.build(prefix: __MODULE__)
-    |> tap(&MetaLogger.log(:debug, &1))
-    |> handle_response()
+  @spec post_to_segment(String.t(), Config.t()) :: HTTP.request_result()
+  defp post_to_segment(body, %Config{} = config) do
+    case HTTP.post(body, config) do
+      {:ok, _body} = result ->
+        result
+
+      {:error, _reason} = result ->
+        log_post_result(:error, "Segment API request failed", config)
+        result
+    end
   end
 
-  defp handle_response(%{payload: %{data: %Response{body: body, status_code: status_code}}})
-       when status_code in 200..299 do
-    {:ok, body}
-  end
+  @spec log_post_result(Logger.level(), String.t(), Config.t()) :: :ok
+  defp log_post_result(log_level, message, %Config{} = config),
+    do: Logger.log(log_level, "[#{log_tag(config.prefix)}] #{message}")
 
-  defp handle_response(%{payload: %{data: %Response{body: body}}}), do: {:error, body}
-
-  defp handle_response(%{payload: %{data: %Error{reason: reason}}}) do
-    {:error, Enum.join([~s({"reason":"), inspect(reason), ~s("})])}
-  end
+  @spec log_tag(atom() | String.t()) :: String.t()
+  defp log_tag(string) when is_binary(string), do: string
+  defp log_tag(value), do: inspect(value)
 end

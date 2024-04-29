@@ -1,63 +1,47 @@
-analytics-elixir ![analytics-elixir](https://github.com/FindHotel/analytics-elixir/workflows/analytics-elixir/badge.svg?branch=master)
-================
+# analytics-elixir ![analytics-elixir](https://github.com/FindHotel/analytics-elixir/workflows/analytics-elixir/badge.svg?branch=master)
 
 analytics-elixir is a non-supported third-party client for [Segment](https://segment.com)
 
-## Install
+## Installation
 
-Add the following to deps section of your mix.exs: `{:segment, github: "FindHotel/analytics-elixir"}`
+Add the following to deps section of your mix.exs:
 
-and then `mix deps.get`
+```elixir
+{:segment, github: "FindHotel/analytics-elixir"}
+```
+
+And then run:
+
+```sh
+mix deps.get
+```
 
 ## Usage
 
-Start the Segment agent with your write_key from Segment, and the endpoint.
-The __endpoint__ is optional and if omitted, it defaults to `https://api.segment.io/v1/`.
-```
-Segment.start_link("YOUR_SEGMENT_KEY", "https://example.com/v1")
-```
-There are then two ways to call the different methods on the API.
-A basic way through `Segment.Analytics` or by passing a full Struct
-with all the data for the API (allowing Context and Integrations to be set)
+For general usage, first define the `:key` configuration:
 
-## Usage in Phoenix
-
-This is how I add to a Phoenix project (may not be your preferred way)
-
-1. Add the following to deps section of your mix.exs: `{:segment, github: "FindHotel/analytics-elixir"}`
-   and then `mix deps.get`
-
-2. Add segment to applications list in the Phoenix project mix.exs
-ie.
-```
-def application do
-  [mod: {FormAndThread, []},
-   applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                  :phoenix_ecto, :postgrex, :segment]]
-end
+```elixir
+config :segment, key: "your_segment_key"
 ```
 
-3. Add a config variable for your write_key (may want to make this environment dependent)
-ie.
-```
-config :segment,
-  key: "your_segment_key",
-  endpoint: "https://api.segment.io/v1/"
-```
-The __endpoint__ is optional (as specified in the Usage section above).
+> For detailed information about configuration, see `t:Segment.options/0`.
 
-4. Start the segment agent as a child of the application in the application file under
-the lib directory. In the children list add:
-```
-{Segment, [Application.get_env(:segment, :key), Application.get_env(:segment, :endpoint)]}
-```
+Then call `Segment.Analytics` functions to send analytics.
+
+There are then two ways to call the functions:
+
+- By using a collection of parameters
+- By using the related struct as a parameter
 
 ### Track
-```
+
+```elixir
 Segment.Analytics.track(user_id, event, %{property1: "", property2: ""})
 ```
+
 or the full way using a struct with all the possible options for the track call
-```
+
+```elixir
 %Segment.Analytics.Track{ userId: "sdsds",
                           event: "eventname",
                           properties: %{property1: "", property2: ""}
@@ -66,11 +50,14 @@ or the full way using a struct with all the possible options for the track call
 ```
 
 ### Identify
-```
+
+```elixir
 Segment.Analytics.identify(user_id, %{trait1: "", trait2: ""})
 ```
+
 or the full way using a struct with all the possible options for the identify call
-```
+
+```elixir
 %Segment.Analytics.Identify{ userId: "sdsds",
                              traits: %{trait1: "", trait2: ""}
                            }
@@ -78,11 +65,14 @@ or the full way using a struct with all the possible options for the identify ca
 ```
 
 ### Screen
-```
+
+```elixir
 Segment.Analytics.screen(user_id, name)
 ```
+
 or the full way using a struct with all the possible options for the screen call
-```
+
+```elixir
 %Segment.Analytics.Screen{ userId: "sdsds",
                            name: "dssd"
                          }
@@ -90,11 +80,14 @@ or the full way using a struct with all the possible options for the screen call
 ```
 
 ### Alias
-```
+
+```elixir
 Segment.Analytics.alias(user_id, previous_id)
 ```
+
 or the full way using a struct with all the possible options for the alias call
-```
+
+```elixir
 %Segment.Analytics.Alias{ userId: "sdsds",
                           previousId: "dssd"
                          }
@@ -102,11 +95,14 @@ or the full way using a struct with all the possible options for the alias call
 ```
 
 ### Group
-```
+
+```elixir
 Segment.Analytics.group(user_id, group_id)
 ```
+
 or the full way using a struct with all the possible options for the group call
-```
+
+```elixir
 %Segment.Analytics.Group{ userId: "sdsds",
                           groupId: "dssd"
                          }
@@ -114,42 +110,26 @@ or the full way using a struct with all the possible options for the group call
 ```
 
 ### Page
-```
+
+```elixir
 Segment.Analytics.page(user_id, name)
 ```
+
 or the full way using a struct with all the possible options for the page call
-```
+
+```elixir
 %Segment.Analytics.Page{ userId: "sdsds",
                          name:   "dssd"
                        }
   |> Segment.Analytics.page
 ```
 
-### Config as options
+## Testing
 
-You can also pass the __endpoint__ and __key__ as options to the
-`Segment.Analytics.call/2` along with the struct.
-```
-%Segment.Analytics.Track{ userId: "sdsds",
-                          event: "eventname",
-                          properties: %{property1: "", property2: ""}
-                        }
-  |> Segment.Analytics.call([key: "YOUR_SEGMENT_KEY", endpoint: "https://example.com/v1"])
-```
+Clone the repository and run:
 
-With this approach the options take precedence over configurations stored in the Segment agent.
-
-### Filtering null JSON attributes from request body
-
-You can avoid sending `null` JSON attributes to the configured Segment API endpoint by passing
-`drop_nil_fields: true` to the `Segment.Analytics.call/2` function.
-
-## Running tests
-
-There are not many tests at the moment. But you can run a live test on your segment
-account by running.
-```
-SEGMENT_KEY=yourkey mix test
+```sh
+mix test
 ```
 
 ## Release

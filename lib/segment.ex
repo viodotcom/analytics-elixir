@@ -1,77 +1,85 @@
 defmodule Segment do
-  use Agent
+  @moduledoc """
+  Client for Segment API.
 
-  @type status :: :ok | :error
+  For usage, see `Segment.Analytics`.
 
-  @default_endpoint "https://api.segment.io/v1/"
+  For options and configuration, see `t:Segment.options/0`.
+  """
 
-  @spec start_link(String.t(), String.t()) :: {Segment.status(), pid}
-  def start_link(key, endpoint \\ @default_endpoint) do
-    Agent.start_link(fn -> %{endpoint: endpoint, key: key} end, name: __MODULE__)
-  end
+  @default_config %Segment.Config{}
 
-  @doc """
-  The child specifications
+  @typedoc "The struct that will be used as payload."
+  @type model :: struct()
 
-  ## Examples
+  @typedoc "Request and response body patterns that will be filtered before logging."
+  @type filter_body :: [{Regex.t() | String.pattern(), String.t()}]
 
-    iex> Segment.child_spec([key: "something"])
-    %{
-      id: Segment,
-      start: {Segment, :start_link, ["something", nil]}
-    }
+  @typedoc "HTTP headers that will be filtered before logging."
+  @type filter_headers :: [String.t()]
 
-    iex> Segment.child_spec([])
-    ** (KeyError) key :key not found in: []
+  @typedoc """
+  Options to customize the operation.
 
-    iex> Segment.child_spec([key: "something", endpoint: "http://example.com"])
-    %{
-      id: Segment,
-      start: {Segment, :start_link, ["something", "http://example.com"]}
-    }
+  It is possible to define options through application environment:
+
+      # in config.exs
+      import Config
+
+      config :segment,
+        disable_meta_logger: #{inspect(@default_config.disable_meta_logger)},
+        drop_nil_fields: #{inspect(@default_config.drop_nil_fields)},
+        endpoint: #{inspect(@default_config.endpoint)},
+        filter_body: #{inspect(@default_config.filter_body)},
+        http_adapter: #{inspect(@default_config.http_adapter)},
+        key: "a-valid-api-key",
+        max_retries: #{inspect(@default_config.max_retries)},
+        prefix: #{inspect(@default_config.prefix)},
+        request_timeout: #{inspect(@default_config.request_timeout)},
+        retry_base_delay: #{inspect(@default_config.retry_base_delay)},
+        retry_jitter_factor: #{inspect(@default_config.retry_jitter_factor)},
+        retry_max_delay: #{inspect(@default_config.retry_max_delay)}
+
+  Available options:
+
+  - `:disable_meta_logger` - If `true`, the request and response will not be logged.
+    Defaults to `#{inspect(@default_config.disable_meta_logger)}`.
+  - `:drop_nil_fields` - If `true`, removes any field with `nil` value from the request payload.
+    Defaults to `#{inspect(@default_config.drop_nil_fields)}`.
+  - `:endpoint` - The base URL for the Segment API.
+    Defaults to `#{inspect(@default_config.endpoint)}`.
+  - `:filter_body` - Request and response body patterns that will be filtered before logging.
+    Defaults to `#{inspect(@default_config.filter_body)}`.
+  - `:http_adapter` - `:Tesla` adapter for the client.
+    Defaults to `#{inspect(@default_config.http_adapter)}`.
+  - `:key` - The `x-api-key` HTTP header value.
+    Must be set.
+  - `:max_retries` - Maximum number of retries.
+    Defaults to `#{inspect(@default_config.max_retries)}`.
+  - `:prefix` - String or atom (including modules) to be used as the log prefix.
+    Defaults to `#{inspect(@default_config.prefix)}`.
+  - `:request_timeout` - Maximum amount of milliseconds to wait for a response.
+    Defaults to `#{inspect(@default_config.request_timeout)}`.
+  - `:retry_base_delay` - The base amount of milliseconds to wait before attempting a new request.
+    Defaults to `#{inspect(@default_config.retry_base_delay)}`.
+  - `:retry_jitter_factor` - Additive noise multiplier to update the retry delay.
+    Defaults to `#{inspect(@default_config.retry_jitter_factor)}`.
+  - `:retry_max_delay` - Maximum delay in milliseconds to wait before attempting a new request.
+    Defaults to `#{inspect(@default_config.retry_max_delay)}`.
 
   """
-  def child_spec(arg) do
-    opts = [
-      Keyword.fetch!(arg, :key),
-      Keyword.get(arg, :endpoint)
-    ]
-
-    %{
-      id: Segment,
-      start: {Segment, :start_link, opts}
-    }
-  end
-
-  @doc """
-  Returns the segment key
-
-  ## Examples
-
-    iex> Segment.start_link("key")
-    ...> Segment.key()
-    "key"
-
-  """
-  def key() do
-    Agent.get(__MODULE__, &Map.get(&1, :key))
-  end
-
-  @doc """
-  Returns the segment endpoint
-
-  ## Examples
-
-    iex> Segment.start_link("key")
-    ...> Segment.endpoint()
-    "https://api.segment.io/v1/"
-
-    iex> Segment.start_link("key", "https://example.com")
-    ...> Segment.endpoint()
-    "https://example.com"
-
-  """
-  def endpoint() do
-    Agent.get(__MODULE__, &Map.get(&1, :endpoint))
-  end
+  @type options :: [
+          disable_meta_logger: boolean(),
+          drop_nil_fields: boolean(),
+          endpoint: String.t(),
+          filter_body: Segment.filter_body(),
+          http_adapter: module(),
+          key: String.t(),
+          max_retries: non_neg_integer(),
+          prefix: atom() | String.t(),
+          request_timeout: non_neg_integer(),
+          retry_base_delay: non_neg_integer(),
+          retry_jitter_factor: non_neg_integer(),
+          retry_max_delay: non_neg_integer()
+        ]
 end
