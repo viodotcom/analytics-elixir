@@ -7,6 +7,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- Update `Tesla` library to `1.14.0` version.
+
 ## [2.0.0] - 2024-04-29
 
 ### Changed

@@ -39,7 +39,7 @@ defmodule AnalyticsElixir.Mixfile do
       {:meta_logger, "~> 1.4"},
       {:miss, "~> 0.1"},
       {:poison, "~> 5.0"},
-      {:tesla, "~> 1.5"},
+      {:tesla, "~> 1.14.0"},
       {:typed_struct, "~> 0.2", runtime: false},
       {:uuid, "~> 1.1"},
 
