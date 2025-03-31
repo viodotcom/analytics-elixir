@@ -36,8 +36,7 @@ defmodule AnalyticsElixir.Mixfile do
   defp deps do
     [
       {:decimal, "~> 2.0"},
-      # {:meta_logger, "~> 1.4"},
-      {:meta_logger, git: "https://github.com/Ivor/meta_logger.git", branch: "master"},
+      {:meta_logger, "~> 1.4"},
       {:miss, "~> 0.1"},
       {:poison, "~> 5.0"},
       {:tesla, "~> 1.14"},
