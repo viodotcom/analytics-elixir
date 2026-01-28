@@ -21,7 +21,7 @@ defmodule Segment.Config do
     field :disable_meta_logger, boolean(), default: false
     field :drop_nil_fields, boolean(), default: false
     field :endpoint, String.t(), default: "https://api.segment.io/v1/"
-    field :filter_body, Segment.filter_body(), default: @filter_body
+    field :filter_body, Segment.filter_body()
     field :http_adapter, module(), default: Tesla.Adapter.Hackney
     field :key, String.t()
     field :max_retries, non_neg_integer(), default: 5
@@ -34,6 +34,9 @@ defmodule Segment.Config do
 
   @spec boolean_keys :: [atom()]
   def boolean_keys, do: @boolean_keys
+
+  @spec default_filter_body :: Segment.filter_body()
+  def default_filter_body, do: @filter_body
 
   @spec float_keys :: [atom()]
   def float_keys, do: @float_keys

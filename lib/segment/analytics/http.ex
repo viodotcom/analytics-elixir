@@ -57,7 +57,7 @@ defmodule Segment.Analytics.HTTP do
   @spec meta_logger(Config.t()) :: Keyword.t()
   defp meta_logger(%Config{} = config) do
     [
-      filter_body: config.filter_body,
+      filter_body: config.filter_body || Config.default_filter_body(),
       filter_headers: ~w(x-api-key),
       log_level: :info,
       log_tag: __MODULE__
