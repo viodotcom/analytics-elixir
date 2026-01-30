@@ -14,11 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Elixir
+      - name: Set up Elixir
+        id: beam
         uses: erlef/setup-beam@v1
         with:
           elixir-version: "1.18.1"
-          otp-version: "27.2"
+          otp-version: "27.3.4"
+          version-type: strict
 
       - name: Restore dependencies cache
         uses: actions/cache@v4
@@ -27,11 +29,30 @@ jobs:
           key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
           restore-keys: ${{ runner.os }}-mix-
 
+      - name: Restore PLT cache
+        id: plt_cache
+        uses: actions/cache/restore@v4
+        with:
+          key: plt-${{ runner.os }}-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            plt-${{ runner.os }}-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-
+          path: priv/plts
+
       - name: Install dependencies
         run: mix deps.get
 
-      - name: Compile
-        run: mix compile
+      - name: Create PLTs
+        if: steps.plt_cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p priv/plts
+          mix dialyzer --plt
+
+      - name: Save PLT cache
+        uses: actions/cache/save@v4
+        if: steps.plt_cache.outputs.cache-hit != 'true'
+        with:
+          key: plt-${{ runner.os }}-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+          path: priv/plts
 
       - name: Check formatted
         run: mix format --check-formatted
@@ -40,3 +61,6 @@ jobs:
         env:
           MIX_ENV: test
         run: mix test
+
+      - name: Run Dialyzer
+        run: mix dialyzer --format github

@@ -3,3 +3,7 @@
 erl_crash.dump
 *.ez
 *.DS_Store
+
+# Dialyzer
+/priv/plts/*.plt
+/priv/plts/*.plt.hash
