@@ -9,10 +9,6 @@ defmodule AnalyticsElixir.Mixfile do
       app: :segment,
       deps: deps(),
       description: "analytics_elixir",
-      dialyzer: [
-        plt_core_path: "priv/plts",
-        plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
-      ],
       elixir: "~> 1.18",
       elixirc_paths: elixirc_paths(Mix.env()),
       name: "analytics_elixir",
