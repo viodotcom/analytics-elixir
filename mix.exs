@@ -9,7 +9,7 @@ defmodule AnalyticsElixir.Mixfile do
       app: :segment,
       deps: deps(),
       description: "analytics_elixir",
-      elixir: "~> 1.12",
+      elixir: "~> 1.19",
       elixirc_paths: elixirc_paths(Mix.env()),
       name: "analytics_elixir",
       package: package(),
@@ -47,7 +47,7 @@ defmodule AnalyticsElixir.Mixfile do
       {:ex_doc, "~> 0.28", only: :dev, runtime: false},
 
       # Static analysis
-      {:dialyxir, "~> 1.1", only: :dev, runtime: false}
+      {:dialyxir, "~> 1.4", only: :dev, runtime: false}
     ]
   end
 

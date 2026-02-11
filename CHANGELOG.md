@@ -7,6 +7,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-01-28
+
+### Fixed
+
+- Fixed Elixir 1.19 compatibility by removing regex-containing struct default for `filter_body` field. The default value is now applied at runtime via the `default_filter_body/0` function.
+
 ## [2.0.0] - 2024-04-29
 
 ### Changed
