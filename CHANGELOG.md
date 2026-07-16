@@ -7,6 +7,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- Require Poison 6.0 (`~> 6.0`).
+
 ## [3.0.0] - 2026-02-11
 
 ## [2.0.1] - 2026-01-28
