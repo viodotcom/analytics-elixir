@@ -35,7 +35,7 @@ defmodule AnalyticsElixir.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [
-      {:decimal, "~> 2.0"},
+      {:decimal, "~> 2.1"},
       {:meta_logger, "~> 1.4"},
       {:miss, "~> 0.1"},
       {:poison, "~> 6.0"},

@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Changed
 
 - Require Poison 6.0 (`~> 6.0`).
+- Require Decimal 2.1 (`~> 2.1`), following Poison 6.0.
 
 ## [3.0.0] - 2026-02-11
 
