@@ -13,3 +13,17 @@ defmodule Segment.Analytics.Context.LibraryTest do
     end
   end
 end
+
+defmodule Segment.Analytics.TrackTest do
+  use ExUnit.Case, async: true
+
+  describe "encoding" do
+    test "encodes analytics models with Jason" do
+      assert %{"event" => "signup", "type" => "track"} =
+               %Segment.Analytics.Track{event: "signup"}
+               |> Jason.encode!()
+               |> Jason.decode!()
+               |> Map.take(["event", "type"])
+    end
+  end
+end

@@ -7,6 +7,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- Replace Poison with Jason for JSON encoding.
+
 ## [4.0.0] - 2026-07-29
 
 ### Changed
