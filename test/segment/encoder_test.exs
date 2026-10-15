@@ -36,6 +36,6 @@ defmodule Segment.EncoderTest do
 
     result = Subject.encode!(batch, config)
 
-    assert Poison.decode!(result) == Factory.string_map_for(result_factory)
+    assert Jason.decode!(result) == Factory.map_for(result_factory)
   end
 end

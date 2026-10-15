@@ -1,5 +1,5 @@
 defmodule Segment.Analytics.Batch do
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
 
   defstruct [
     :batch,
@@ -8,7 +8,7 @@ defmodule Segment.Analytics.Batch do
 end
 
 defmodule Segment.Analytics.Track do
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   @method "track"
 
   defstruct [
@@ -25,7 +25,7 @@ defmodule Segment.Analytics.Track do
 end
 
 defmodule Segment.Analytics.Identify do
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   @method "identify"
 
   defstruct [
@@ -41,14 +41,14 @@ defmodule Segment.Analytics.Identify do
 end
 
 defmodule Segment.Analytics.Alias do
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   @method "alias"
 
   defstruct [:context, :previousId, :timestamp, :userId, :version, type: @method]
 end
 
 defmodule Segment.Analytics.Page do
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   @method "page"
 
   defstruct [
@@ -65,7 +65,7 @@ defmodule Segment.Analytics.Page do
 end
 
 defmodule Segment.Analytics.Screen do
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   @method "screen"
 
   defstruct [
@@ -82,7 +82,7 @@ defmodule Segment.Analytics.Screen do
 end
 
 defmodule Segment.Analytics.Group do
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   @method "group"
 
   defstruct [
@@ -99,7 +99,7 @@ defmodule Segment.Analytics.Group do
 end
 
 defmodule Segment.Analytics.Context.Library do
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
 
   @project_name Mix.Project.get().project[:name]
   @project_version Mix.Project.get().project[:version]
@@ -117,7 +117,7 @@ defmodule Segment.Analytics.Context.Library do
 end
 
 defmodule Segment.Analytics.Context do
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
 
   defstruct [
     :app,

@@ -12,7 +12,7 @@ defmodule Segment.Encoder do
       {Decimal, &Decimal.to_float/1}
     ])
     |> maybe_drop_nil_fields(config)
-    |> Poison.encode!()
+    |> Jason.encode!()
   end
 
   @spec maybe_drop_nil_fields(map(), Config.t()) :: map()

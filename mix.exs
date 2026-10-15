@@ -36,9 +36,9 @@ defmodule AnalyticsElixir.Mixfile do
   defp deps do
     [
       {:decimal, "~> 2.1"},
+      {:jason, "~> 1.4"},
       {:meta_logger, "~> 1.4"},
       {:miss, "~> 0.1"},
-      {:poison, "~> 6.0"},
       {:tesla, "~> 1.5"},
       {:typed_struct, "~> 0.2", runtime: false},
       {:uuid, "~> 1.1"},

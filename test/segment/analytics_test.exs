@@ -100,7 +100,7 @@ defmodule Segment.AnalyticsTest do
   defp assert_request_body(%Tesla.Env{} = env, expected_request_body) do
     request_body =
       env.body
-      |> Poison.decode!()
+      |> Jason.decode!()
       |> Map.delete("sentAt")
       |> Map.update!("batch", &Enum.map(&1, fn event -> Map.delete(event, "messageId") end))
 
@@ -197,10 +197,7 @@ defmodule Segment.AnalyticsTest do
   end
 
   defp mocked_response_body do
-    Poison.encode!(%{
-      "another" => %{"json" => ["response"]},
-      "address" => %{"city" => "Amsterdam"}
-    })
+    ~s({"another":{"json":["response"]},"address":{"city":"Amsterdam"}})
   end
 
   defp successful_logs(endpoint \\ "https://api.segment.io/v1/") do
