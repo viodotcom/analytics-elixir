@@ -7,6 +7,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [4.1.0] - 2026-10-15
+
 ### Changed
 
 - Replace Poison with Jason for JSON encoding.
@@ -116,7 +118,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - First release.
 
-[unreleased]: https://github.com/FindHotel/analytics-elixir/compare/4.0.0...master
+[unreleased]: https://github.com/FindHotel/analytics-elixir/compare/4.1.0...master
+[4.1.0]: https://github.com/FindHotel/analytics-elixir/compare/4.0.0...4.1.0
 [4.0.0]: https://github.com/FindHotel/analytics-elixir/compare/3.0.0...4.0.0
 [3.0.0]: https://github.com/FindHotel/analytics-elixir/compare/2.0.0...3.0.0
 [2.0.0]: https://github.com/FindHotel/analytics-elixir/compare/1.3.1...2.0.0

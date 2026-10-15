@@ -1,7 +1,7 @@
 defmodule AnalyticsElixir.Mixfile do
   use Mix.Project
 
-  @version "4.0.0"
+  @version "4.1.0"
   @source_url "https://github.com/FindHotel/analytics-elixir"
 
   def project do
