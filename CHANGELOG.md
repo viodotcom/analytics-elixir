@@ -7,6 +7,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- Configure Segment HTTPS requests with the runtime OS CA bundle and explicit peer and hostname
+  verification.
+
 ## [4.1.0] - 2026-10-15
 
 ### Changed

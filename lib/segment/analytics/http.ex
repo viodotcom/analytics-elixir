@@ -64,9 +64,20 @@ defmodule Segment.Analytics.HTTP do
     ]
   end
 
-  @spec adapter(Config.t()) :: {module(), recv_timeout: non_neg_integer()}
-  defp adapter(%Config{} = config),
-    do: {config.http_adapter, recv_timeout: config.request_timeout}
+  @spec adapter(Config.t()) :: {module(), Keyword.t()}
+  defp adapter(%Config{} = config) do
+    {config.http_adapter,
+     [
+       recv_timeout: config.request_timeout,
+       ssl_options: [
+         cacerts: :public_key.cacerts_get(),
+         verify: :verify_peer,
+         customize_hostname_check: [
+           match_fun: :public_key.pkix_verify_hostname_match_fun(:https)
+         ]
+       ]
+     ]}
+  end
 
   @spec handle_result(Tesla.Env.result()) :: request_result()
   defp handle_result({:ok, %Tesla.Env{} = env}) when response_ok?(env), do: {:ok, env.body}
