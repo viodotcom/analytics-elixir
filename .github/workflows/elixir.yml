@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     name: Build and test
-    runs-on: ubuntu-latest
+    runs-on: runs-on=${{ github.run_id }}/runner=4cpu-linux-x64
     steps:
       - uses: actions/checkout@v4
 
